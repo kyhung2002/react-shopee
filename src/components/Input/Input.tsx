@@ -1,15 +1,12 @@
+import { InputHTMLAttributes } from 'react'
 import type { UseFormRegister, RegisterOptions } from 'react-hook-form'
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   type: React.HTMLInputTypeAttribute
   errorMessage?: string
-  placeholder?: string
-  className?: string
-  name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   rules?: RegisterOptions
-  autoComplete?: string
 }
 
 export default function Input({

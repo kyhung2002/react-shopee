@@ -15,10 +15,23 @@ const initialAppContext: AppContextInterface = {
   profile: getProfile(),
   setProfile: () => null
 }
+
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
+
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
-  const value = { isAuthenticated, setIsAuthenticated, profile, setProfile }
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
+
+  return (
+    <AppContext.Provider
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        profile,
+        setProfile
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  )
 }
