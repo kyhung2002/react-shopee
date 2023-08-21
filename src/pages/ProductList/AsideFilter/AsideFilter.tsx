@@ -1,10 +1,38 @@
-import { Link } from 'react-router-dom'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
-import Input from 'src/components/Input'
 import path from 'src/constants/path'
+import { Category } from 'src/types/category.type'
 
-
-export default function AsideFilter() {
+import { QueryConfig } from '../ProductList'
+import classNames from 'classnames'
+import InputNumber from 'src/components/InputNumber'
+import { useForm, Controller } from 'react-hook-form'
+import RatingStar from 'src/components/RatingStars'
+import { omit } from 'lodash'
+interface IProp {
+  categories: Category[]
+  queryConfig: QueryConfig
+}
+type FormData = {
+  price_min: string
+  price_max: string
+}
+export default function AsideFilter(props: IProp) {
+  const { categories, queryConfig } = props
+  const navigate = useNavigate()
+  const { control, watch } = useForm<FormData>({
+    defaultValues: {
+      price_max: '',
+      price_min: ''
+    }
+  })
+  const valueForm = watch()
+  const handleRemoveFilter = () => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(omit(queryConfig, ['rating_filter', 'price_max', 'price_min', 'category'])).toString()
+    })
+  }
   return (
     <div className='py-4'>
       <Link to={path.home} className='flex items-center font-bold'>
@@ -25,19 +53,29 @@ export default function AsideFilter() {
       </Link>
       <div className='bg-gray-300 h-[1px] my-4' />
       <ul>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-2 font-semibold text-orange'>
-            <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
-              <polygon points='4 3.5 0 0 0 7' />
-            </svg>
-            Thời trang nam
-          </Link>
-        </li>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-2 '>
-            Điện thoại
-          </Link>
-        </li>
+        {categories.map((item, index) => (
+          <li className='py-2 pl-2' key={item._id}>
+            <Link
+              to={{
+                pathname: path.home,
+                search: createSearchParams({
+                  ...queryConfig,
+                  category: item._id
+                }).toString()
+              }}
+              className={classNames('relative px-2', {
+                'font-semibold text-orange': queryConfig.category == item._id
+              })}
+            >
+              {queryConfig.category == item._id && (
+                <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
+                  <polygon points='4 3.5 0 0 0 7' />
+                </svg>
+              )}
+              {item.name}
+            </Link>
+          </li>
+        ))}
       </ul>
       <Link to={path.home} className='flex items-center mt-4 font-bold uppercase'>
         <svg
@@ -63,23 +101,39 @@ export default function AsideFilter() {
       <div className='my-5'>
         <div>Khoản giá</div>
         <form className='mt-2'>
-          {/* <div className='flex items-start'>
-            <Input
-              type='text'
-              // className='grow'
-              name='from'
-              placeholder='₫ TỪ'
-              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+          <div className='flex items-start'>
+            <Controller
+              name='price_min'
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  type='text'
+                  className='grow'
+                  name='from'
+                  placeholder='₫ TỪ'
+                  classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              )}
             />
             <div className='mx-2 mt-2 shrink-0'>-</div>
-            <Input
-              type='text'
-              // className='grow'
-              name='from'
-              placeholder='₫ ĐẾN'
-              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+            <Controller
+              control={control}
+              name='price_max'
+              render={({ field }) => (
+                <InputNumber
+                  type='text'
+                  className='grow'
+                  name='from'
+                  placeholder='₫ ĐẾN'
+                  classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              )}
             />
-          </div> */}
+          </div>
           <Button className='flex items-center justify-center w-full p-2 text-sm text-white uppercase bg-orange hover:bg-orange/80'>
             Áp dụng
           </Button>
@@ -87,78 +141,12 @@ export default function AsideFilter() {
       </div>
       <div className='bg-gray-300 h-[1px] my-4' />
       <div className='text-sm'>Đánh giá</div>
-      <ul className='my-3'>
-        <li className='py-1 pl-2'>
-          <Link to='' className='flex items-center text-sm'>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <svg viewBox='0 0 9.5 8' className='w-4 h-4 mr-1' key={index}>
-                  <defs>
-                    <linearGradient id='ratingStarGradient' x1='50%' x2='50%' y1='0%' y2='100%'>
-                      <stop offset={0} stopColor='#ffca11' />
-                      <stop offset={1} stopColor='#ffad27' />
-                    </linearGradient>
-                    <polygon
-                      id='ratingStar'
-                      points='14.910357 6.35294118 12.4209136 7.66171903 12.896355 4.88968305 10.8823529 2.92651626 13.6656353 2.52208166 14.910357 0 16.1550787 2.52208166 18.9383611 2.92651626 16.924359 4.88968305 17.3998004 7.66171903'
-                    />
-                  </defs>
-                  <g fill='url(#ratingStarGradient)' fillRule='evenodd' stroke='none' strokeWidth={1}>
-                    <g transform='translate(-876 -1270)'>
-                      <g transform='translate(155 992)'>
-                        <g transform='translate(600 29)'>
-                          <g transform='translate(10 239)'>
-                            <g transform='translate(101 10)'>
-                              <use stroke='#ffa727' strokeWidth='.5' xlinkHref='#ratingStar' />
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              ))}
-            <span>Trở lên</span>
-          </Link>
-        </li>
-        <li className='py-1 pl-2'>
-          <Link to='' className='flex items-center text-sm'>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <svg viewBox='0 0 9.5 8' className='w-4 h-4 mr-1' key={index}>
-                  <defs>
-                    <linearGradient id='ratingStarGradient' x1='50%' x2='50%' y1='0%' y2='100%'>
-                      <stop offset={0} stopColor='#ffca11' />
-                      <stop offset={1} stopColor='#ffad27' />
-                    </linearGradient>
-                    <polygon
-                      id='ratingStar'
-                      points='14.910357 6.35294118 12.4209136 7.66171903 12.896355 4.88968305 10.8823529 2.92651626 13.6656353 2.52208166 14.910357 0 16.1550787 2.52208166 18.9383611 2.92651626 16.924359 4.88968305 17.3998004 7.66171903'
-                    />
-                  </defs>
-                  <g fill='url(#ratingStarGradient)' fillRule='evenodd' stroke='none' strokeWidth={1}>
-                    <g transform='translate(-876 -1270)'>
-                      <g transform='translate(155 992)'>
-                        <g transform='translate(600 29)'>
-                          <g transform='translate(10 239)'>
-                            <g transform='translate(101 10)'>
-                              <use stroke='#ffa727' strokeWidth='.5' xlinkHref='#ratingStar' />
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              ))}
-            <span>Trở lên</span>
-          </Link>
-        </li>
-      </ul>
+      <RatingStar queryConfig={queryConfig}></RatingStar>
       <div className='bg-gray-300 h-[1px] my-4' />
-      <Button className='flex items-center justify-center w-full p-2 text-sm text-white uppercase bg-orange hover:bg-orange/80'>
+      <Button
+        className='flex items-center justify-center w-full p-2 text-sm text-white uppercase bg-orange hover:bg-orange/80'
+        onClick={handleRemoveFilter}
+      >
         Xóa tất cả
       </Button>
     </div>

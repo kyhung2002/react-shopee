@@ -1,68 +1,37 @@
 import { Link } from 'react-router-dom'
+import ProductRating from 'src/components/ProductRating'
+import { IProduct } from 'src/types/product.type'
+import { formatCurrencyVND, formatSocial } from 'src/utils/utils'
 
-export default function Product() {
+export default function Product(props: IProduct) {
   return (
     <Link to='/'>
       <div className='bg-white shadow rounded-sm hover:translate-y-[-0.04rem] hover:shadow-md duration-100 transition-transform overflow-hidden'>
         <div className='w-full pt-[100%] relative'>
           <img
-            src='https://cf.shopee.vn/file/ea0f159f3f4c713abcf56b5ba73840b9_tn'
-            alt=''
+            src={props.image}
+            alt={props.name}
             className='absolute top-0 left-0 object-cover w-full h-full bg-white'
           />
         </div>
         <div className='p-2 overflow-hidden'>
-          <div className='min-h-[2rem] line-clamp-2 text-xs'>
-            [HÀNG HIỆU] Thắt Lưng Da Nam Khóa Tự Động Cao Cấp Dây Nịt Nam Mặt Xoay Chính Hãng , Phong Cách Hàn Quốc -
-            v77men
-          </div>
+          <div className='min-h-[2rem] line-clamp-2 text-xs'>{props.name}</div>
           <div className='flex items-center mt-3'>
-            <div className='line-through max-w-[50%] text-gray-500 truncate'>
+            <div className='line-through max-w-[50%] text-gray-500 truncate text-sm'>
               <span className='text-xs'>₫</span>
-              <span>5.000</span>
+              <span>{props.price_before_discount}</span>
             </div>
-            <div className='ml-1 truncate text-orange'>
+            <div className='ml-1 text-sm truncate text-orange'>
               <span className='text-xs'>₫</span>
-              <span>2.000</span>
+              <span>{formatCurrencyVND(props.price)}</span>
             </div>
           </div>
           <div className='flex items-center justify-end mt-3'>
             <div className='flex items-center'>
-              <div className='relative'>
-                <div className='absolute top-0 left-0 h-full overflow-hidden' style={{ width: '50%' }}>
-                  <svg
-                    enableBackground='new 0 0 15 15'
-                    viewBox='0 0 15 15'
-                    x={0}
-                    y={0}
-                    className='w-3 h-3 text-yellow-300 fill-yellow-300'
-                  >
-                    <polygon
-                      points='7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeMiterlimit={10}
-                    />
-                  </svg>
-                </div>
-                <svg
-                  enableBackground='new 0 0 15 15'
-                  viewBox='0 0 15 15'
-                  x={0}
-                  y={0}
-                  className='w-3 h-3 text-gray-300 fill-current'
-                >
-                  <polygon
-                    points='7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeMiterlimit={10}
-                  />
-                </svg>
-              </div>
+              <ProductRating rating={props.rating}></ProductRating>
             </div>
             <div className='ml-2 text-sm'>
-              <span>5.66k</span>
+              <span>{formatSocial(props.sold)}</span>
               <span className='ml-1'>Đã bán</span>
             </div>
           </div>

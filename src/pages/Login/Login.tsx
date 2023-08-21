@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { schema, Schema } from 'src/utils/rules'
+import { schema, Schema, schemaNoConfirm } from 'src/utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { login } from 'src/apis/auth.api'
 import { isAxiosEntityError } from 'src/utils/utils'
@@ -37,7 +37,7 @@ export default function Login() {
         navigate('/')
       },
       onError: (error) => {
-        if (isAxiosEntityError<ErrorResponse<FormData>>(error)) {
+        if (isAxiosEntityError<ErrorResponse<Omit<schemaNoConfirm, 'confirm_password'>>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
             Object.keys(formError).forEach((key) => {

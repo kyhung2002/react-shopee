@@ -7,7 +7,7 @@ export default function Button(props: ButtonProps) {
   const { isLoading, className, disabled, children, ...rest } = props
   const newClassName = disabled ? className + ' cursor-not-allowed' : className
   return (
-    <button className={newClassName} disabled={disabled}>
+    <button className={newClassName} disabled={disabled} {...rest}>
       {isLoading && (
         <div role='status'>
           <svg
