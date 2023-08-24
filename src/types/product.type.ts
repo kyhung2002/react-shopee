@@ -15,6 +15,7 @@ export interface IProduct {
   image: string
   createdAt: string
   updatedAt: string
+  description: string
 }
 export interface ProductList {
   products: IProduct[]

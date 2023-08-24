@@ -39,6 +39,7 @@ export default function Login() {
       onError: (error) => {
         if (isAxiosEntityError<ErrorResponse<Omit<schemaNoConfirm, 'confirm_password'>>>(error)) {
           const formError = error.response?.data.data
+
           if (formError) {
             Object.keys(formError).forEach((key) => {
               setError(key as keyof FormData, {

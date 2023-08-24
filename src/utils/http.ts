@@ -33,7 +33,7 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        if (url === path.login || url === path.register) {
+        if (url === 'login' || url === 'register') {
           const data = response.data as AuthResponse
           this.accessToken = data.data.access_token
           saveAccessTokenToLS(this.accessToken)
@@ -50,6 +50,9 @@ class Http {
           const data: any | undefined = error.response?.data
           const message = data.message || error.message
           toast.error(message)
+        }
+        if (error?.response?.status === HttpStatusCode.Unauthorized) {
+          clearTokenFromLS()
         }
         return Promise.reject(error)
       }

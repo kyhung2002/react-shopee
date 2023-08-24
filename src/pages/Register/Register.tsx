@@ -13,7 +13,6 @@ import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/components/Button'
 
 type FormData = Schema
-
 export default function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
@@ -47,18 +46,6 @@ export default function Register() {
               })
             })
           }
-          // if (formError?.email) {
-          //   setError('email', {
-          //     message: formError.email,
-          //     type: 'Server'
-          //   })
-          // }
-          // if (formError?.password) {
-          //   setError('password', {
-          //     message: formError.password,
-          //     type: 'Server'
-          //   })
-          // }
         }
       }
     })
