@@ -1,19 +1,18 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
+import { AppContext } from 'src/contexts/app.context'
 
 export default function UserSideNav() {
+  const { profile } = useContext(AppContext)
   return (
     <div>
       <div className='flex items-center py-4 border-b border-b-gray-200'>
         <Link to={path.profile} className='flex-shrink-0 w-12 h-12 overflow-hidden border rounded-full border-black/10'>
-          <img
-            src='https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn'
-            alt=''
-            className='object-cover w-full h-full'
-          />
+          <img src={profile?.avatar} alt='' className='object-cover w-full h-full' />
         </Link>
         <div className='flex-grow pl-4'>
-          <div className='mb-1 font-semibold text-gray-600 truncate'>cdthanh</div>
+          <div className='mb-1 font-semibold text-gray-600 truncate'>{profile?.name}</div>
           <Link to={path.profile} className='flex items-center text-gray-500 capitalize'>
             <svg
               width={12}

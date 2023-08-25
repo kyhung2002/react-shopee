@@ -117,11 +117,7 @@ export default function Header() {
               }
             >
               <div className='flex-shrink-0 w-6 h-6 mr-2'>
-                <img
-                  src='https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn'
-                  alt='avatar'
-                  className='object-cover w-full h-full rounded-full'
-                />
+                <img src={profile?.avatar} alt='avatar' className='object-cover w-full h-full rounded-full' />
               </div>
               <div>{profile?.email}</div>
             </Popover>

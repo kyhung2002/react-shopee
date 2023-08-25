@@ -1,9 +1,9 @@
 import { User } from 'src/types/user.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import http from 'src/utils/http'
-interface BodyUpdateProfile extends Pick<User, 'address' | 'date_of_birth' | 'name' | 'phone' | 'avatar'> {
-  password: string
-  new_password: string
+export interface BodyUpdateProfile extends Pick<User, 'address' | 'date_of_birth' | 'name' | 'phone' | 'avatar'> {
+  password?: string
+  new_password?: string
 }
 
 const URL = 'user'
