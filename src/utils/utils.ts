@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import { config } from 'src/config'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
@@ -40,4 +41,8 @@ export const getIdFromNameId = (nameId: string) => {
 }
 export const countTotalEachProduct = (count: number, price: number) => {
   return price * count
+}
+
+export const generateConfigAvatar = (avatarName: string) => {
+  return avatarName ? `${config.URL}images/${avatarName}` : 'vite.svg'
 }

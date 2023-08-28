@@ -68,7 +68,7 @@ export default function QuantityController({
         classNameError='hidden'
         value={value}
         classNameInput='h-8 w-14 border-t border-b border-gray-300 p-1 text-center outline-none'
-        onChange={(e) => handleChange(e)}
+        onChange={handleChange}
         onBlur={handleFocusOut}
       />
       <button

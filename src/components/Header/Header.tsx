@@ -11,7 +11,7 @@ import useParamsVariables from 'src/hooks/useParams'
 import { sortBy } from 'src/types/product.type'
 import { status } from 'src/constants/purchaseStatus'
 import purchaseAPI from 'src/apis/purchase.api'
-import { formatCurrencyVND } from 'src/utils/utils'
+import { formatCurrencyVND, generateConfigAvatar } from 'src/utils/utils'
 import { getAccessTokenFromLS } from 'src/utils/auth'
 export default function Header() {
   const queryParams: QueryConfig = useParamsVariables()
@@ -117,7 +117,11 @@ export default function Header() {
               }
             >
               <div className='flex-shrink-0 w-6 h-6 mr-2'>
-                <img src={profile?.avatar} alt='avatar' className='object-cover w-full h-full rounded-full' />
+                <img
+                  src={generateConfigAvatar(profile?.avatar as string)}
+                  alt='avatar'
+                  className='object-cover w-full h-full rounded-full'
+                />
               </div>
               <div>{profile?.email}</div>
             </Popover>
